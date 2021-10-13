@@ -1,0 +1,83 @@
+lower = abcdefghikjlmnopqrstuvwxyz
+upper = ABCDEFGHIKJLMNOPQRSTUVWXYZ
+numbers = 0123456789
+special = /\^&*()!$%
+any = lower,upper,numbers,special
+
+s1 (upper)-> f2
+f2 (lower)-> f2
+f2 ( -)-> s1
+
+ask m: Input your name: 
+
+clear states
+
+s1 (any)-> s1
+s1 (@)-> s2
+s2 (any)-> s2
+s2 (.)-> s3
+s3 (e)-> s4
+s4 (d)-> s5
+s5 (u)-> f1
+s3 (c)-> s6
+s6 (o)-> s7
+s7 (m)-> f2
+s3 (o)-> s8
+s8 (r)-> s9
+s9 (g)-> s10
+
+ask m: Input your e-mail:
+
+clear states
+
+f1 (number)-> f1
+
+ask m: Input your housenumber:
+
+clear states
+
+s1 (upper)-> f2
+f2 (lower)-> f2
+f2 ( -)-> s1
+
+ask m: Input your street name:
+
+clear states
+
+s1 (D)-> s2
+s2 (r)-> s3
+s3 (.)-> f1
+s1 (A)-> s4
+s4 (v)-> s5
+s5 (.)-> f1
+s1 (R)-> s6
+s6 (d)-> s7
+s7 (.)-> f1
+
+ask m: Input your street type:
+
+clear states
+
+s1 (upper)-> f2
+f2 (lower)-> f2
+f2 ( -)-> s1
+
+ask m: Input your city: 
+
+clear states
+
+f1 (upper)-> f1
+
+ask m: Input your state: 
+
+clear states
+
+s1 (numbers)-> s2
+s2 (numbers)-> s3
+s3 (numbers)-> s4
+s4 (numbers)-> s5
+s5 (numbers)-> f1
+
+ask m: Input your ZIP-code: 
+
+clear all

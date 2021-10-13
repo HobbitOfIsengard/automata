@@ -1,0 +1,269 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Documentation Automata &#8212; Automata 0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Documentation State" href="state.html" />
+    <link rel="prev" title="Welcome to Automata’s documentation!" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="documentation-automata">
+<span id="automata"></span><h1>Documentation Automata<a class="headerlink" href="#documentation-automata" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="automata.Automata">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">automata.</span></span><span class="sig-name descname"><span class="pre">Automata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#automata.Automata" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Automata class parser.  This class constructs a graph of <a class="reference internal" href="state.html#automata.State" title="automata.State"><code class="xref py py-class docutils literal notranslate"><span class="pre">State</span></code></a>’s based on a parsed txt file.  The class also allowes for a more dynamic approach by giving direct access to the parser <a class="reference internal" href="#automata.Automata.switch" title="automata.Automata.switch"><code class="xref py py-meth docutils literal notranslate"><span class="pre">switch()</span></code></a>, which takes a line and parses it out to functions.  The class is made to be subclassed to extend the basic parser functionality.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>__filename</strong> (<em>str</em>) – Optional name of file which is parsed when calling <a class="reference internal" href="#automata.Automata.run" title="automata.Automata.run"><code class="xref py py-meth docutils literal notranslate"><span class="pre">run()</span></code></a></p></li>
+<li><p><strong>__variables</strong> (<em>[</em><em>name</em><em>,</em><em>value</em><em>]</em>) – List which stores name value pairs    of the constant variables instanced in the program</p></li>
+<li><p><strong>__states</strong> ([class::<cite>State</cite>]) – List of states in the graph.  Used to build up a list which contains one entry with each state.  The states are then connected to form the evaluating transition graph</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="automata.Automata.__ask">
+<span class="sig-name descname"><span class="pre">__ask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">line</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#automata.Automata.__ask" title="Permalink to this definition">¶</a></dt>
+<dd><p>Asks the user for an input, or uses the input provided in the txt file.  A custom message can be added by using the “ask m: &lt;message&gt;”.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>line</strong> (<em>str</em>) – the parsed line</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="automata.Automata.__assign">
+<span class="sig-name descname"><span class="pre">__assign</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">line</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#automata.Automata.__assign" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parses the line argument by taking the string before ” = ” as the name and the string after as the value.  If another variable or comma seperated list of variables is given, the combined value of these variables is stored under the transition value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>line</strong> (<em>str</em>) – the parsed line</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="automata.Automata.__clear">
+<span class="sig-name descname"><span class="pre">__clear</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">line</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#automata.Automata.__clear" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clears the variables, __variables and __states, so that they can be redifiend, allowing for multiple Automata defined in the same file, and parsed by the same object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>line</strong> (<em>str</em>) – the parsed line</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="automata.Automata.__comment">
+<span class="sig-name descname"><span class="pre">__comment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">line</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#automata.Automata.__comment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Member function which is called when a comment (line beginning with #) or empty line is read in</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>line</strong> (<em>str</em>) – the parsed line (for subclassing purposes)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="automata.Automata.__connect">
+<span class="sig-name descname"><span class="pre">__connect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">line</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#automata.Automata.__connect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parses the line argument by creating 2 states out of the first characters before ” (” and the characters after the “-&gt; “.  If the name of these states is already present use those states otherwise add new states.  Then use the transition specified by the value inbetween the parentheses to connect the two graph nodes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>line</strong> (<em>str</em>) – the parsed line</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="automata.Automata.__get_transition">
+<span class="sig-name descname"><span class="pre">__get_transition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#automata.Automata.__get_transition" title="Permalink to this definition">¶</a></dt>
+<dd><p>Member function to get the transition stored in __variables given a name for the transition.  If multiple comma seperated names are given, the names are split and returned</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>name</strong> – name of transition</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>String with all transitions which are available under the comma seperated names given.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="automata.Automata.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#automata.Automata.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructor for class <a class="reference internal" href="#automata.Automata" title="automata.Automata"><code class="xref py py-class docutils literal notranslate"><span class="pre">Automata</span></code></a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>filename</strong> (<em>str</em>) – optional parameter for the filename with relative path to the python script</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="automata.Automata.__rest">
+<span class="sig-name descname"><span class="pre">__rest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">line</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#automata.Automata.__rest" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function is called by <a class="reference internal" href="#automata.Automata.switch" title="automata.Automata.switch"><code class="xref py py-meth docutils literal notranslate"><span class="pre">switch()</span></code></a> if no parsing method is provided.  This method can easily be subclassed to extend the current switch functionality and not tampering with the default parsing settings.  Per default this function raises a ValueError to inform the programmer of their parsing mistake.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>line</strong> (<em>str</em>) – the parsed line</p></li>
+<li><p><strong>index</strong> (<em>int</em>) – the line index</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>ValueError</strong> – The given string does not correspond with a known parsing method writes out line index and line for debugging purposes.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="automata.Automata.load">
+<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#automata.Automata.load" title="Permalink to this definition">¶</a></dt>
+<dd><p>Loops through all lines in the file &lt;name&gt;.txt and passes them to the parsing function <a class="reference internal" href="#automata.Automata.switch" title="automata.Automata.switch"><code class="xref py py-meth docutils literal notranslate"><span class="pre">switch()</span></code></a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – name without extension of the file which contains the automata configuration</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="automata.Automata.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#automata.Automata.run" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference internal" href="#automata.Automata.load" title="automata.Automata.load"><code class="xref py py-meth docutils literal notranslate"><span class="pre">load()</span></code></a>’s the main file __filename</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="automata.Automata.save">
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#automata.Automata.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Loops through all states and writes them into a file, with the passed name.  This automata can be loaded later in the program using <a class="reference internal" href="#automata.Automata.load" title="automata.Automata.load"><code class="xref py py-meth docutils literal notranslate"><span class="pre">load()</span></code></a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – name without extension of the file the automata should be saved to</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="automata.Automata.switch">
+<span class="sig-name descname"><span class="pre">switch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">line</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#automata.Automata.switch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parses the line and calls the appropriate function for the given line.  Furthermore gives the user the ability to interactivly parse lines</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>line</strong> (<em>str</em>) – the parsed line (for subclassing purposes)</p></li>
+<li><p><strong>index</strong> (<em>int</em>) – the line index</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Automata</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Documentation Automata</a></li>
+<li class="toctree-l1"><a class="reference internal" href="state.html">Documentation State</a></li>
+<li class="toctree-l1"><a class="reference internal" href="downloads.html">Downloads</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Getting Started</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Welcome to Automata’s documentation!</a></li>
+      <li>Next: <a href="state.html" title="next chapter">Documentation State</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2021, Raphael Frey.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.2.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/automata.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
