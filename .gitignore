@@ -1,6 +1,3 @@
-# Object file
-*.o
-
 # Folders
 .doc/
 .DS_Store
@@ -8,7 +5,6 @@
 # Emacs files
 *~
 #*
-*__pycache__/*
 
-# Ada Library Information
-*.ali
+# python cache
+*__pycache__/*
