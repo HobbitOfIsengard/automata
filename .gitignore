@@ -1,6 +1,6 @@
 # Folders
 .doc/
-.DS_Store
+.DS_Store/
 
 # Emacs files
 *~
