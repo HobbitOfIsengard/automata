@@ -10,4 +10,4 @@ This python code is meant to be a lightweight addition to anyone toying with aut
 The features this code provides is rudementary file parsing as well as a way to implement a easy to use automata.  Currently one is able to define variables, create connections in addition to saving and loading from and to txt files.  The script is easy to use and works right out the box - nothin other than python is needed to run the code (a html viewer is required for the documetation).
 
 ## Legal
-All snake logos belong to the PSF and are intended for non-commercial use as icons for files and executables as specified by the [PSF Trademark](https://www.python.org/psf/trademarks/).  Will be removed if requested.
+All snake logos are owned and licensed by the PSF and are intended for non-commercial use as icons for files and executables as specified by the [PSF Trademark](https://www.python.org/psf/trademarks/).  Will be removed if requested.
