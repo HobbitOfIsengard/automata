@@ -1,5 +1,5 @@
 # Automata
-![logo](icons/Logo.png)
+![logo](_static/Logo.png=300x300)
 ## Motivation
 This simple python code is for a schoolproject where the goal was to use state oriented programming techniques to create a working automatas.  The idea behind this project is to generalise this idea and wrap the code in a website.  I acchieved this using the python documentation generator [sphinx](https://www.sphinx-doc.org/en/master/) which creates the website pretty much out of the box.
 
@@ -8,3 +8,6 @@ This python code is meant to be a lightweight addition to anyone toying with aut
 
 ## Features
 The features this code provides is rudementary file parsing as well as a way to implement a easy to use automata.  Currently one is able to define variables, create connections in addition to saving and loading from and to txt files.  The script is easy to use and works right out the box - nothin other than python is needed to run the code (a html viewer is required for the documetation).
+
+## Legal
+All snake logos belong to the PSF and are intended for non-commercial use as icons for files and executables as specified by the [PSF Trademark](https://www.python.org/psf/trademarks/).  Will be removed if requested.
