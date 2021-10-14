@@ -1,5 +1,5 @@
 # Automata
-![logo](_static/Logo.png=300x300)
+![logo](_static/Logo.png)
 ## Motivation
 This simple python code is for a schoolproject where the goal was to use state oriented programming techniques to create a working automatas.  The idea behind this project is to generalise this idea and wrap the code in a website.  I acchieved this using the python documentation generator [sphinx](https://www.sphinx-doc.org/en/master/) which creates the website pretty much out of the box.
 
