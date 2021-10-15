@@ -329,7 +329,7 @@ class Automata(object):
         """
         self.__name__ = name
 
-    def switch(self,line, index):
+    def switch(self,line, index = 0):
         """
         Parses the line and calls the appropriate function for the given line.  Furthermore gives the user the ability to interactivly parse lines
         
@@ -342,7 +342,7 @@ class Automata(object):
             self.__comment(line)
         elif " = " in line:
             self.__assign(line)
-        elif "(" in line:
+        elif "->" in line:
             self.__connect(line)
         elif "ask" == line[:3]:
             self.__ask(line)

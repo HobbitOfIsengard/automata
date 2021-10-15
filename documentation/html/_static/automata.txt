@@ -28,13 +28,13 @@ s3 (o)-> s8
 s8 (r)-> s9
 s9 (g)-> s10
 
-ask m: Input your e-mail:
+ask m: Input your e-mail: f: handle
 
 clear states
 
 f1 (numbers)-> f1
 
-ask m: Input your housenumber:
+ask m: Input your housenumber: f: handle
 
 clear states
 
@@ -42,7 +42,7 @@ s1 (upper)-> f2
 f2 (lower)-> f2
 f2 ( -)-> s1
 
-ask m: Input your street name:
+ask m: Input your street name: f: handle
 
 clear states
 
@@ -56,7 +56,7 @@ s1 (R)-> s6
 s6 (d)-> s7
 s7 (.)-> f1
 
-ask m: Input your street type:
+ask m: Input your street type: f: handle
 
 clear states
 
@@ -64,13 +64,13 @@ s1 (upper)-> f2
 f2 (lower)-> f2
 f2 ( -)-> s1
 
-ask m: Input your city: 
+ask m: Input your city:  f: handle
 
 clear states
 
 f1 (upper)-> f1
 
-ask m: Input your state: 
+ask m: Input your state:  f: handle
 
 clear states
 
@@ -80,6 +80,6 @@ s3 (numbers)-> s4
 s4 (numbers)-> s5
 s5 (numbers)-> f1
 
-ask m: Input your ZIP-code: 
+ask m: Input your ZIP-code:  f: handle
 
 clear all
