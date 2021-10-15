@@ -329,7 +329,7 @@ class Automata(object):
         """
         self.__name__ = name
 
-    def switch(self,line, index):
+    def switch(self,line, index = 0):
         """
         Parses the line and calls the appropriate function for the given line.  Furthermore gives the user the ability to interactivly parse lines
         

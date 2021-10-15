@@ -6,5 +6,6 @@ def handle(automata, result):
     :param result: the result of the automata
     :type result: bool
     """
-    print(f"result from handler: {result}")
-
+    print(result)
+    if not result:
+        automata.switch("ask m: try again: f: handle")
