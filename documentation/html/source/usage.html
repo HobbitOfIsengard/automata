@@ -46,7 +46,7 @@
 <section id="syntax">
 <h2>Syntax<a class="headerlink" href="#syntax" title="Permalink to this headline">¶</a></h2>
 <dl class="simple">
-<dt>Per default there are 7 encoded options for a line:</dt><dd><ul class="simple">
+<dt>Per default there are 9 encoded options for a line:</dt><dd><ul class="simple">
 <li><p>Empty/Comment</p></li>
 <li><p>Assignment</p></li>
 <li><p>Connection</p></li>
@@ -54,6 +54,8 @@
 <li><p>Clear</p></li>
 <li><p>Load</p></li>
 <li><p>Run</p></li>
+<li><p>Import</p></li>
+<li><p>Name</p></li>
 </ul>
 </dd>
 </dl>
@@ -95,8 +97,15 @@
 </section>
 <section id="ask">
 <h3>Ask<a class="headerlink" href="#ask" title="Permalink to this headline">¶</a></h3>
-<p>This line asks either the user or the program for input.  The default message for <cite>ask</cite> is just: “Input a string to check: “, but this message can be modified using <cite>ask m: &lt;message&gt;</cite> or by directly providing a string which will be checked by the graph using <cite>ask &lt;string&gt;</cite>, again the spaces are crucial for the parser</p>
+<p>The ask statement can be run by itself or with the options <cite>t:</cite>, <cite>m:</cite> or <cite>f:</cite>.  The <cite>t:</cite> option provides test functionality, where the string after <cite>t:</cite> will be passed directly to the first node of the graph (being the node first declared in the graph for a connection).  The <cite>m:</cite> option or message option changes the default commandline query message - “Input a string to check: ” - to something to the programmers choice.  Lastly the <cite>f:</cite> option specifies the handler function used by the function to handle the graph results.  Per default this is <cite>print</cite> and will simply print out the automata name and the value.  This can be customized by writing a function <cite>&lt;handle&gt;</cite> in a file called <cite>&lt;handle_file&gt;</cite> which accepts an <code class="xref py py-class docutils literal notranslate"><span class="pre">Autonoma</span></code> as its first argument and a boolean result as its second.  This file must be imported before using.  Examples of the ask statement are</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ask</span>
+
+<span class="n">ask</span> <span class="n">t</span><span class="p">:</span> <span class="n">Test</span>
+<span class="n">ask</span> <span class="n">m</span><span class="p">:</span> <span class="n">Input</span> <span class="n">your</span> <span class="n">name</span>
+
+<span class="kn">import</span> <span class="nn">handle_file</span>
+
+<span class="n">ask</span> <span class="n">m</span><span class="p">:</span> <span class="n">Input</span> <span class="n">your</span> <span class="n">name</span> <span class="n">f</span><span class="p">:</span> <span class="n">handle</span>
 </pre></div>
 </div>
 </section>
@@ -127,6 +136,20 @@
 <p>The <cite>save</cite> statement is followed by a string <cite>name</cite>. This parameter value is the name (without extension) of the file which the function will then (over)write (<cite>&lt;name&gt;.txt</cite>)</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># write the automata out to name.txt</span>
 <span class="n">save</span> <span class="n">name</span>
+</pre></div>
+</div>
+</section>
+<section id="import">
+<h3>Import<a class="headerlink" href="#import" title="Permalink to this headline">¶</a></h3>
+<p>This statement dynamically loads the specified file to a variable.  This variable will be overwritten if another file is imported.  Functions in the file will be executed when ask is called</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">handle_file</span>
+</pre></div>
+</div>
+</section>
+<section id="name">
+<h3>Name<a class="headerlink" href="#name" title="Permalink to this headline">¶</a></h3>
+<p>This simple statement changes the name of the automata, usefull for comparing and printing the automata</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">name</span> <span class="n">myAutonoma</span>
 </pre></div>
 </div>
 </section>

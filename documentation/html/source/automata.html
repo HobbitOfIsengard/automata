@@ -37,7 +37,7 @@
 <span id="automata"></span><h1>Documentation Automata<a class="headerlink" href="#documentation-automata" title="Permalink to this headline">¶</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="automata.Automata">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">automata.</span></span><span class="sig-name descname"><span class="pre">Automata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#automata.Automata" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">automata.</span></span><span class="sig-name descname"><span class="pre">Automata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#automata.Automata" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Automata class parser.  This class constructs a graph of <a class="reference internal" href="state.html#automata.State" title="automata.State"><code class="xref py py-class docutils literal notranslate"><span class="pre">State</span></code></a>’s based on a parsed txt file.  The class also allowes for a more dynamic approach by giving direct access to the parser <a class="reference internal" href="#automata.Automata.switch" title="automata.Automata.switch"><code class="xref py py-meth docutils literal notranslate"><span class="pre">switch()</span></code></a>, which takes a line and parses it out to functions.  The class is made to be subclassed to extend the basic parser functionality.</p>
 <dl class="field-list simple">
@@ -46,13 +46,14 @@
 <li><p><strong>__filename</strong> (<em>str</em>) – Optional name of file which is parsed when calling <a class="reference internal" href="#automata.Automata.run" title="automata.Automata.run"><code class="xref py py-meth docutils literal notranslate"><span class="pre">run()</span></code></a></p></li>
 <li><p><strong>__variables</strong> (<em>[</em><em>name</em><em>,</em><em>value</em><em>]</em>) – List which stores name value pairs    of the constant variables instanced in the program</p></li>
 <li><p><strong>__states</strong> ([class::<cite>State</cite>]) – List of states in the graph.  Used to build up a list which contains one entry with each state.  The states are then connected to form the evaluating transition graph</p></li>
+<li><p><strong>__module</strong> (<em>[</em><em>name</em><em>, </em><em>module name</em><em>]</em>) – The python modules which can be improted to handle the ask result</p></li>
 </ul>
 </dd>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="automata.Automata.__ask">
 <span class="sig-name descname"><span class="pre">__ask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">line</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#automata.Automata.__ask" title="Permalink to this definition">¶</a></dt>
-<dd><p>Asks the user for an input, or uses the input provided in the txt file.  A custom message can be added by using the “ask m: &lt;message&gt;”.</p>
+<dd><p>Asks the user for an input.  Different flags can be set to enrich the input.  If no flags are set, then the default message will appear to the reader: “input a string to check: “.  Modifications to the output message are possible using the ” m: ” flag.  This flag will lead to a change of query message to the user.  A test flag ” t: ” can be used to statically code the string passed to the automata.  The default handler for the result is print, meaning the output of the graph will simply be printed in the console. To override this behavior and use the value provided by the automata, all what has to be done is using the <a class="reference internal" href="#automata.Automata.__import_file" title="automata.Automata.__import_file"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__import_file()</span></code></a>, import the python file containing your handler (you may only load one file at a time, the file can change throughout the program if so implemented), and then use the ” f: ” option on the ask statement, where the name of the handler has to be stated.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>line</strong> (<em>str</em>) – the parsed line</p>
@@ -72,12 +73,35 @@
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="automata.Automata.__blank">
+<span class="sig-name descname"><span class="pre">__blank</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#automata.Automata.__blank" title="Permalink to this definition">¶</a></dt>
+<dd><p>Placeholder function, returns its parameter
+:param: name
+:rval: name</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="automata.Automata.__clear">
 <span class="sig-name descname"><span class="pre">__clear</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">line</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#automata.Automata.__clear" title="Permalink to this definition">¶</a></dt>
 <dd><p>Clears the variables, __variables and __states, so that they can be redifiend, allowing for multiple Automata defined in the same file, and parsed by the same object.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>line</strong> (<em>str</em>) – the parsed line</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="automata.Automata.__combine">
+<span class="sig-name descname"><span class="pre">__combine</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ilist</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">slist</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">split</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'</span> <span class="pre">'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#automata.Automata.__combine" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function takes a input list and a string list and combines all the i list entries inbetween the entries noted in the string list.  The combination adds the split string between each joining of strings</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ilist</strong> (<em>[</em><em>str</em><em>]</em>) – a list with strings to be combined</p></li>
+<li><p><strong>slist</strong> (<em>[</em><em>str</em><em>]</em>) – a list with the strings which should not be combined and thus indicate a new entry in the returned list</p></li>
+<li><p><strong>split</strong> (<em>str</em>) – the character with which the list was created in a split</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
@@ -105,6 +129,23 @@
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="automata.Automata.__eq__">
+<span class="sig-name descname"><span class="pre">__eq__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#automata.Automata.__eq__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Equality operator overload</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>other</strong> (<a class="reference internal" href="#automata.Automata" title="automata.Automata"><code class="xref py py-class docutils literal notranslate"><span class="pre">Automata</span></code></a>) – Other State object to be checked for equality</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A comparison between the name of the two class:<cite>State</cite> objects</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="automata.Automata.__get_transition">
 <span class="sig-name descname"><span class="pre">__get_transition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#automata.Automata.__get_transition" title="Permalink to this definition">¶</a></dt>
 <dd><p>Member function to get the transition stored in __variables given a name for the transition.  If multiple comma seperated names are given, the names are split and returned</p>
@@ -122,12 +163,48 @@
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="automata.Automata.__import_file">
+<span class="sig-name descname"><span class="pre">__import_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#automata.Automata.__import_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>A function which takes a certain python file and makes it accessible by the automata</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – name of the file without .py extension</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="automata.Automata.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#automata.Automata.__init__" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#automata.Automata.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Constructor for class <a class="reference internal" href="#automata.Automata" title="automata.Automata"><code class="xref py py-class docutils literal notranslate"><span class="pre">Automata</span></code></a></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>filename</strong> (<em>str</em>) – optional parameter for the filename with relative path to the python script</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="automata.Automata.__load">
+<span class="sig-name descname"><span class="pre">__load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#automata.Automata.__load" title="Permalink to this definition">¶</a></dt>
+<dd><p>Loops through all lines in the file &lt;name&gt;.txt and passes them to the parsing function <a class="reference internal" href="#automata.Automata.switch" title="automata.Automata.switch"><code class="xref py py-meth docutils literal notranslate"><span class="pre">switch()</span></code></a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – name without extension of the file which contains the automata configuration</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="automata.Automata.__repr__">
+<span class="sig-name descname"><span class="pre">__repr__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#automata.Automata.__repr__" title="Permalink to this definition">¶</a></dt>
+<dd><p>String representation of <a class="reference internal" href="#automata.Automata" title="automata.Automata"><code class="xref py py-class docutils literal notranslate"><span class="pre">Automata</span></code></a> object</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Returns the object name as string representation</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
 </dd>
 </dl>
 </dd></dl>
@@ -150,12 +227,32 @@
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="automata.Automata.load">
-<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#automata.Automata.load" title="Permalink to this definition">¶</a></dt>
-<dd><p>Loops through all lines in the file &lt;name&gt;.txt and passes them to the parsing function <a class="reference internal" href="#automata.Automata.switch" title="automata.Automata.switch"><code class="xref py py-meth docutils literal notranslate"><span class="pre">switch()</span></code></a></p>
+<dt class="sig sig-object py" id="automata.Automata.__save">
+<span class="sig-name descname"><span class="pre">__save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#automata.Automata.__save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Loops through all states and writes them into a file, with the passed name.  This automata can be loaded later in the program using <code class="xref py py-meth docutils literal notranslate"><span class="pre">load()</span></code></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – name without extension of the file which contains the automata configuration</p>
+<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – name without extension of the file the automata should be saved to</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="automata.Automata.__set_name">
+<span class="sig-name descname"><span class="pre">__set_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#automata.Automata.__set_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>A function which sets the name of the automata.  This is usefull during comparison and printing results.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="automata.Automata.__str__">
+<span class="sig-name descname"><span class="pre">__str__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#automata.Automata.__str__" title="Permalink to this definition">¶</a></dt>
+<dd><p>String representation of <a class="reference internal" href="#automata.Automata" title="automata.Automata"><code class="xref py py-class docutils literal notranslate"><span class="pre">Automata</span></code></a> object</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Returns the object name as string representation</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
 </dd>
 </dl>
 </dd></dl>
@@ -163,18 +260,7 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="automata.Automata.run">
 <span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#automata.Automata.run" title="Permalink to this definition">¶</a></dt>
-<dd><p><a class="reference internal" href="#automata.Automata.load" title="automata.Automata.load"><code class="xref py py-meth docutils literal notranslate"><span class="pre">load()</span></code></a>’s the main file __filename</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="automata.Automata.save">
-<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#automata.Automata.save" title="Permalink to this definition">¶</a></dt>
-<dd><p>Loops through all states and writes them into a file, with the passed name.  This automata can be loaded later in the program using <a class="reference internal" href="#automata.Automata.load" title="automata.Automata.load"><code class="xref py py-meth docutils literal notranslate"><span class="pre">load()</span></code></a></p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – name without extension of the file the automata should be saved to</p>
-</dd>
-</dl>
+<dd><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">load()</span></code>’s the main file __filename</p>
 </dd></dl>
 
 <dl class="py method">

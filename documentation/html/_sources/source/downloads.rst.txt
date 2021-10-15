@@ -8,7 +8,7 @@ The base python file which contains the Graph builder :class:`Automata` and the 
 
 .. raw:: html
 	 
-	 <a href="_static/programs/automata.py" download>
+	 <a href="../_static/automata.py" download>
 	 <img src = ../_static/pyicon.png
 	 width = 5%
 	 height = 5%
@@ -22,7 +22,7 @@ A sketch of different automatas chained through the use of `clear states`
 
 .. raw:: html
 	 
-	 <a href="_static/programs/automata.txt" download>
+	 <a href="../_static/automata.txt" download>
 	 <img src = ../_static/txticon.png
 	 width = 5%
 	 height = 5%
@@ -33,7 +33,7 @@ A main program which simply links the parser with the txt document
 
 .. raw:: html
 	 
-	 <a href="_static/programs/main.py" download>
+	 <a href="../_static/main.py" download>
 	 <img src = ../_static/pyicon.png
 	 width = 5%
 	 height = 5%

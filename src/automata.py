@@ -1,3 +1,4 @@
+import importlib
 class State(object):
     """
     Base module node for an :class:`Automata` graph. Connects to other nodes, which ultimately evaluate the acceptance of a string inputed by the user
@@ -72,7 +73,7 @@ class State(object):
         :type string: str
         """
         print(" --> ", end = "")
-        if len(string)-1 <= 0:
+        if len(string) == 0:
             print("(" + self.__name__+",\u03B5)")
             return self.__final
         
@@ -97,8 +98,10 @@ class Automata(object):
     :type __variables: [name,value]
     :param __states: List of states in the graph.  Used to build up a list which contains one entry with each state.  The states are then connected to form the evaluating transition graph
     :type __states: [class::`State`]
+    :param __module: The python modules which can be improted to handle the ask result
+    :type __module: [name, module name]
     """
-    def __init__(self,filename = ""):
+    def __init__(self,filename = "", name = ""):
         """
         Constructor for class :class:`Automata`
 
@@ -108,7 +111,47 @@ class Automata(object):
         self.__filename = filename
         self.__variables = []
         self.__states = []
-        
+        self.__module = None
+        self.__name__ = name
+
+    def __eq__(self, other):
+        """
+        Equality operator overload
+            
+        :param other: Other State object to be checked for equality
+        :type other: :class:`Automata`
+        :return: A comparison between the name of the two class:`State` objects
+        :rtype: bool
+        """
+        return self.__name__ == other.__name__
+
+    def __str__(self):
+        """
+        String representation of :class:`Automata` object
+
+        :return: Returns the object name as string representation
+        :rtype: str
+        """
+        return self.__name__
+
+    def __repr__(self):
+        """
+        String representation of :class:`Automata` object
+
+        :return: Returns the object name as string representation
+        :rtype: str
+        """
+
+        return self.__name__()
+
+    
+    def __blank(self, name):
+        """
+        Placeholder function, returns its parameter
+        :param: name
+        :rval: name
+        """
+        return name
     def __get_transition(self, name):
         """
         Member function to get the transition stored in __variables given a name for the transition.  If multiple comma seperated names are given, the names are split and returned
@@ -126,7 +169,7 @@ class Automata(object):
         if returnval == "":
             return name
         return returnval
-        
+
     def __comment(self,line):
         """
         Member function which is called when a comment (line beginning with #) or empty line is read in
@@ -167,18 +210,32 @@ class Automata(object):
 
     def __ask(self, line):
         """
-        Asks the user for an input, or uses the input provided in the txt file.  A custom message can be added by using the "ask m: <message>". 
-        
+        Asks the user for an input.  Different flags can be set to enrich the input.  If no flags are set, then the default message will appear to the reader: "input a string to check: ".  Modifications to the output message are possible using the " m: " flag.  This flag will lead to a change of query message to the user.  A test flag " t: " can be used to statically code the string passed to the automata.  The default handler for the result is print, meaning the output of the graph will simply be printed in the console. To override this behavior and use the value provided by the automata, all what has to be done is using the :meth:`__import_file`, import the python file containing your handler (you may only load one file at a time, the file can change throughout the program if so implemented), and then use the " f: " option on the ask statement, where the name of the handler has to be stated.
+
         :param line: the parsed line
         :type line: str
         """
-        if len(line) == 3:
-            print(self.__states[0].evaluate(input("input string to check: ")))
-        elif "ask m: " == line[0:7]:
-            print(self.__states[0].evaluate(input(line[7:])))
-        else:
-            print(self.__states[0].evaluate(line[3:]))
+        line = self.__combine(line.split(" "),["t:","m:","f:"])
 
+        if len(line) == 1:
+            print(self.__states[0].evaluate(input("input string to check: ")))
+            return
+
+        eval_statement = ""
+        out_func = print
+        eval_func = input
+        
+        if "t:" in line:
+            eval_statement = line[line.index("t:")+1]
+            eval_func = self.__blank
+        if "m:" in line:
+            eval_statement = line[line.index("m:")+1]
+            eval_func = input
+        if "f:" in line:
+            out_func = getattr(self.__module, line[line.index("f:")+1])
+
+        out_func(self, self.__states[0].evaluate(eval_func(eval_statement)))
+        
     def __clear(self, line):
         """
         Clears the variables, __variables and __states, so that they can be redifiend, allowing for multiple Automata defined in the same file, and parsed by the same object.
@@ -206,7 +263,72 @@ class Automata(object):
         """
         raise ValueError(f'No known interpretation for line {index}: {line}')
 
+    def __save(self, name):
+        """
+        Loops through all states and writes them into a file, with the passed name.  This automata can be loaded later in the program using :meth:`load`
         
+        :param name: name without extension of the file the automata should be saved to
+        :type name: str
+        """
+        with open(f"{name}.txt",'w') as f:
+            for s in self.__states:
+                for t in s.transitions():
+                    f.write(f"{str(s)} ({t[1]})-> {str(t[0])}\n")
+            f.write("ask")
+
+    def __load(self,name):
+        """
+        Loops through all lines in the file <name>.txt and passes them to the parsing function :meth:`switch`
+        
+        :param name: name without extension of the file which contains the automata configuration
+        :type name: str
+        """
+        with open(name,'r') as f:
+            for i,l in enumerate(f):
+                l = l.strip()
+                self.switch(l,i+1)
+
+    def __import_file(self, name):
+        """
+        A function which takes a certain python file and makes it accessible by the automata
+        
+        :param name: name of the file without .py extension
+        :type name: str
+        """
+        self.__module = importlib.import_module((name))
+
+            
+    def __combine(self, ilist, slist, split = " "):
+        """
+        This function takes a input list and a string list and combines all the i list entries inbetween the entries noted in the string list.  The combination adds the split string between each joining of strings
+
+        :param ilist: a list with strings to be combined 
+        :type ilist: [str]
+        :param slist: a list with the strings which should not be combined and thus indicate a new entry in the returned list
+        :type slist: [str]
+        :param split: the character with which the list was created in a split
+        :type split: str
+        """
+        current = ""
+        returnlist = []
+        for i in ilist:
+            if i in slist:
+                returnlist.append(current)
+                returnlist.append(i)
+                current = ""
+            else:
+                if not len(current) == 0:
+                    current += split
+                current += i 
+        returnlist.append(current)
+        return returnlist
+        
+    def __set_name(self, name):
+        """
+        A function which sets the name of the automata.  This is usefull during comparison and printing results.
+        """
+        self.__name__ = name
+
     def switch(self,line, index):
         """
         Parses the line and calls the appropriate function for the given line.  Furthermore gives the user the ability to interactivly parse lines
@@ -227,9 +349,13 @@ class Automata(object):
         elif "clear" == line[:5]:
             self.__clear(line)
         elif "save" == line[:4]:
-            self.save(line[5:])
+            self.__save(line[5:])
         elif "load" == line[:4]:
-            self.load(line[5:])
+            self.__load(line[5:])
+        elif "import" == line[:6]:
+            self.__import_file(line[7:])
+        elif "name" == line[:4]:
+            self.__set_name(line[5:])
         else:
             self.__rest(line,index)
         
@@ -239,29 +365,5 @@ class Automata(object):
 
         """
 
-        self.load(self.__filename)
+        self.__load(self.__filename)
 
-    def save(self, name):
-        """
-        Loops through all states and writes them into a file, with the passed name.  This automata can be loaded later in the program using :meth:`load`
-        
-        :param name: name without extension of the file the automata should be saved to
-        :type name: str
-        """
-        with open(f"{name}.txt",'w') as f:
-            for s in self.__states:
-                for t in s.transitions():
-                    f.write(f"{str(s)} ({t[1]})-> {str(t[0])}\n")
-            f.write("ask")
-
-    def load(self,name):
-        """
-        Loops through all lines in the file <name>.txt and passes them to the parsing function :meth:`switch`
-        
-        :param name: name without extension of the file which contains the automata configuration
-        :type name: str
-        """
-        with open(name,'r') as f:
-            for i,l in enumerate(f):
-                l = l.strip()
-                self.switch(l,i+1)

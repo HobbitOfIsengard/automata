@@ -12,7 +12,7 @@ After downloading the file, all what is necessary is to create an :class:`Automa
 
 Syntax
 ------
-Per default there are 7 encoded options for a line:
+Per default there are 9 encoded options for a line:
  - Empty/Comment
  - Assignment
  - Connection
@@ -20,6 +20,8 @@ Per default there are 7 encoded options for a line:
  - Clear
  - Load
  - Run
+ - Import
+ - Name  
 
 Empty / Comment
 ###############
@@ -57,9 +59,16 @@ This assignment connects two states, and implicitly defines them.  The syntax fo
 
 Ask
 ###
-This line asks either the user or the program for input.  The default message for `ask` is just: "Input a string to check: ", but this message can be modified using `ask m: <message>` or by directly providing a string which will be checked by the graph using `ask <string>`, again the spaces are crucial for the parser ::
+The ask statement can be run by itself or with the options `t:`, `m:` or `f:`.  The `t:` option provides test functionality, where the string after `t:` will be passed directly to the first node of the graph (being the node first declared in the graph for a connection).  The `m:` option or message option changes the default commandline query message - "Input a string to check: " - to something to the programmers choice.  Lastly the `f:` option specifies the handler function used by the function to handle the graph results.  Per default this is `print` and will simply print out the automata name and the value.  This can be customized by writing a function `<handle>` in a file called `<handle_file>` which accepts an :class:`Autonoma` as its first argument and a boolean result as its second.  This file must be imported before using.  Examples of the ask statement are ::
   
   ask
+
+  ask t: Test
+  ask m: Input your name
+
+  import handle_file
+  
+  ask m: Input your name f: handle
 
 Clear
 #####
@@ -87,6 +96,18 @@ The `save` statement is followed by a string `name`. This parameter value is the
 
   # write the automata out to name.txt
   save name
+
+Import
+######
+This statement dynamically loads the specified file to a variable.  This variable will be overwritten if another file is imported.  Functions in the file will be executed when ask is called ::
+  
+  import handle_file
+
+Name
+####
+This simple statement changes the name of the automata, usefull for comparing and printing the automata ::
+
+  name myAutonoma
 
   
 Chaining automatas

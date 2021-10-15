@@ -1,3 +1,5 @@
+import handler
+
 lower = abcdefghikjlmnopqrstuvwxyz
 upper = ABCDEFGHIKJLMNOPQRSTUVWXYZ
 numbers = 0123456789
@@ -8,7 +10,7 @@ s1 (upper)-> f2
 f2 (lower)-> f2
 f2 ( -)-> s1
 
-ask m: Input your name: 
+ask m: Input your name: f: handle
 
 clear states
 
@@ -30,7 +32,7 @@ ask m: Input your e-mail:
 
 clear states
 
-f1 (number)-> f1
+f1 (numbers)-> f1
 
 ask m: Input your housenumber:
 
