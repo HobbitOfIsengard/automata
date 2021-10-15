@@ -342,7 +342,7 @@ class Automata(object):
             self.__comment(line)
         elif " = " in line:
             self.__assign(line)
-        elif "(" in line:
+        elif "->" in line:
             self.__connect(line)
         elif "ask" == line[:3]:
             self.__ask(line)
