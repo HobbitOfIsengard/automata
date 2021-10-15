@@ -56,7 +56,8 @@ html_theme = 'alabaster'
 html_static_path = ['icons', 'src']
 
 # Add Logo
-html_logo = "icons/Logo.png"
+html_favicon = "icons/Logo.png"
+html_logo = html_favicon
 
 #set path to root document
 root_doc = "index"
